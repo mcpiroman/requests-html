@@ -564,12 +564,9 @@ class HTML(BaseParser):
         # |      * ``sameSite`` (str): ``'Strict'`` or ``'Lax'``
         cookie_render = {}
         def __convert(cookiejar, key):
-            try:
-                v = eval ("cookiejar."+key)
-                if not v: kv = ''
-                else: kv = {key: v}
-            except:
-                kv = ''
+            v = getattr(cookiejar, key, None)
+            if v is None: kv = ''
+            else: kv = {key: v}
             return kv
 
         keys = [
